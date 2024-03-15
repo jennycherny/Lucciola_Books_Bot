@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { Bot, GrammyError, HttpError} = require('grammy');
 
+const telegramWebhook = require('./telegramWebhook');
 const fetchData = require('./fetchData');
 const aboutData = require('./about.json');
 const bot = new Bot(process.env.BOT_API_KEY);
@@ -360,3 +361,4 @@ bot.catch((err) => {
 }); 
 
 bot.start();
+telegramWebhook();
