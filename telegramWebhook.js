@@ -1,20 +1,23 @@
-const { Bot } = require('grammy');
-
 async function setupWebhook(bot, webhookUrl) {
     try {
-        // Удаляем существующий вебхук (если есть)
         await bot.api.deleteWebhook();
-        console.log('Webhook deleted successfully');
-        
-        // Устанавливаем новый вебхук
+
         await bot.api.setWebhook(webhookUrl);
-        console.log('Webhook set successfully');
     } catch (error) {
-        console.error('Failed to delete or set webhook:', error);
+        throw new Error('Failed to delete or set webhook: ' + error.message);
     }
 }
 
-module.exports.setupWebhook = setupWebhook;
+async function deleteWebhook(bot) {
+    try {
+        await bot.api.deleteWebhook();
+    } catch (error) {
+        console.error('Failed to delete webhook:', error);
+    }
+}
+
+module.exports = { setupWebhook, deleteWebhook };
+
 
 
 

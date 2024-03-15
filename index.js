@@ -1,10 +1,25 @@
 require('dotenv').config();
 const { Bot, GrammyError, HttpError} = require('grammy');
 
-const { setupWebhook } = require('./telegramWebhook');
+const { setupWebhook, deleteWebhook  } = require('./telegramWebhook');
 const fetchData = require('./fetchData');
 const aboutData = require('./about.json');
 const bot = new Bot(process.env.BOT_API_KEY);
+
+(async () => {
+    try {
+        // Удаляем существующий вебхук (если есть)
+        await deleteWebhook(bot);
+
+        // Устанавливаем новый вебхук
+        const WEBHOOK_URL = process.env.WEBHOOK_URL;
+        await setupWebhook(bot, WEBHOOK_URL);
+
+        // Ваш остальной код здесь
+    } catch (error) {
+        console.error('Failed to set up webhook:', error);
+    }
+})();
 
 bot.api.setMyCommands([
     {
@@ -360,5 +375,18 @@ bot.catch((err) => {
     }
 }); 
 
-bot.start();
-setupWebhook();
+
+// bot.start();
+
+(async () => {
+    try {
+        // Удаляем существующий вебхук (если есть)
+        await deleteWebhook(bot);
+
+        // Запускаем бота
+        await bot.start();
+    } catch (error) {
+        console.error('Failed to start bot:', error);
+    }
+})();
+
