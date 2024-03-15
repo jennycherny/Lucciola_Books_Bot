@@ -361,4 +361,4 @@ bot.catch((err) => {
 }); 
 
 bot.start();
-telegramWebhook();
+telegramWebhook.setupWebhook();

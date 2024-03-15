@@ -1,5 +1,3 @@
-// telegramWebhook.js
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Bot } = require('grammy');
@@ -24,7 +22,12 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-// Экспорт функции для настройки вебхука
-module.exports = function setupWebhook() {
-  bot.api.setWebhook(process.env.WEBHOOK_URL + WEBHOOK_PATH);
+bot.api.deleteWebhook().then(() => {
+    console.log('Webhook deleted successfully');
+}).catch((error) => {
+    console.error('Failed to delete webhook:', error);
+});
+
+module.exports.setupWebhook = function () {
+    bot.api.setWebhook(process.env.WEBHOOK_URL + WEBHOOK_PATH);
 };
