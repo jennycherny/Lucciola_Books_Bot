@@ -1,25 +1,9 @@
 require('dotenv').config();
 const { Bot, GrammyError, HttpError} = require('grammy');
 
-const { setupWebhook, deleteWebhook  } = require('./telegramWebhook');
 const fetchData = require('./fetchData');
 const aboutData = require('./about.json');
 const bot = new Bot(process.env.BOT_API_KEY);
-
-(async () => {
-    try {
-        // Удаляем существующий вебхук (если есть)
-        await deleteWebhook(bot);
-
-        // Устанавливаем новый вебхук
-        const WEBHOOK_URL = process.env.WEBHOOK_URL;
-        await setupWebhook(bot, WEBHOOK_URL);
-
-        // Ваш остальной код здесь
-    } catch (error) {
-        console.error('Failed to set up webhook:', error);
-    }
-})();
 
 bot.api.setMyCommands([
     {
@@ -346,7 +330,7 @@ async function aboutDelivery(ctx) {
 // Кейс предзаказ
 
 async function askForPreOrder(ctx) {
-    const preOrderText = "Заполни [форму](https://lucciola-books.vercel.app/preorder) на сайте, и мы закажем нужную книгу. Как только она окажется в наличии, мы тебе сообщим 📫\n\n P.S. предзаказ бесплатный 🤓";
+    const preOrderText = "Заполни [форму](https://lucciola-books.vercel.app/preorder) на сайте, и мы закажем нужную книгу. Как только она окажется в наличии, мы тебе сообщим 📫\n\n P.S. Предзаказ бесплатный 🤓";
     await ctx.reply(preOrderText, {
         reply_markup: {
             inline_keyboard: [
@@ -375,18 +359,5 @@ bot.catch((err) => {
     }
 }); 
 
-
-// bot.start();
-
-(async () => {
-    try {
-        // Удаляем существующий вебхук (если есть)
-        await deleteWebhook(bot);
-
-        // Запускаем бота
-        await bot.start();
-    } catch (error) {
-        console.error('Failed to start bot:', error);
-    }
-})();
+bot.start();
 
