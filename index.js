@@ -1,9 +1,17 @@
 require('dotenv').config();
 const { Bot, GrammyError, HttpError} = require('grammy');
+const express = require('express');
 
 const fetchData = require('./fetchData');
 const aboutData = require('./about.json');
 const bot = new Bot(process.env.BOT_API_KEY);
+
+// const app = express();
+// const PORT = process.env.PORT || 3000;
+
+// app.listen(PORT, () => {
+//     console.log(`Веб-сервер запущен на порту ${PORT}`);
+//   });
 
 bot.api.setMyCommands([
     {
