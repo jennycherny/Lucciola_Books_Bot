@@ -1,0 +1,9 @@
+name: lucciola_books_bot
+build:
+  steps:
+    - name: 'node:14'
+      command: npm install
+deploy:
+  steps:
+    - name: 'node:14'
+      command: npm start
